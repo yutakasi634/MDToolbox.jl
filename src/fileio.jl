@@ -792,3 +792,53 @@ function writepdb(filename::String, ta::TrjArray; format_type="vmd")
         #Printf.@printf " %8.2f" X[i,j]
     end
 end
+
+
+############################################################################
+"""
+read xyz file
+"""
+function readxyz(filename::String)
+
+    # General xyz file allow trajectory to be not constant number of atom.
+    # But this function request trajectory to be constant number of atom.
+
+    lines = open(filename, "r" ) do fp
+        readlines(fp)
+    end
+
+    model = []
+    current_line_num = 1
+    while current_line_num <= length(lines)
+        frame = []
+        natom = parse(Int64, lines[1])
+        current_line_num += 2 # skip comment line
+        for line_num = current_line_num:current_line_num + natom - 1
+            push!(frame, lines[line_num])
+            current_line_num += 1
+        end
+        push!(model, frame)
+    end
+
+    natom = length(model[1])
+    xyz_x = zeros(Float64, length(model), natom)
+    xyz_y = zeros(Float64, length(model), natom)
+    xyz_z = zeros(Float64, length(model), natom)
+    xyz_name = Vector{String}(undef, natom)
+
+    initial_frame = model[1]
+    for iatom in 1:natom
+        xyz_name[iatom] = split(initial_frame[iatom])[1]
+    end
+
+    for imodel = 1:length(model)
+        lines = model[imodel]
+        for iatom = 1:natom
+            splited_line = split(lines[iatom])
+            xyz_x[imodel, iatom] = parse(Float64, splited_line[2])
+            xyz_y[imodel, iatom] = parse(Float64, splited_line[3])
+            xyz_z[imodel, iatom] = parse(Float64, splited_line[4])
+        end
+    end
+    TrjArray(x=xyz_x, y=xyz_y, z=xyz_z, atomname=xyz_name)
+end
