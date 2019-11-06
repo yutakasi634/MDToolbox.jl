@@ -15,7 +15,7 @@ using Base.Threads
 export KB_kcalpermol, KB_kjpermol
 export AbstractTrajectory, TrjArray, select_atom
 export readdcd, readnetcdf, writenetcdf, readpsf, writepsf, readpdb, writepdb, readxyz
-export centerofmass, decenter, superimpose, superimpose_serial, getrmsd, meanstructure, getrmsf
+export centerofmass, decenter, superimpose, superimpose_serial, getrmsd, meanstructure, getrmsf, getpolarcoordinate
 export getdistance, getangle, getdihedral
 export ksdensity, ksdensity_serial, getpmf
 export wham, wham_iteration

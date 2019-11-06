@@ -4,6 +4,11 @@ import Base: convert, copy, show, getindex, isempty,
 abstract type AbstractTrajectory end
 
 struct TrjArray <: AbstractTrajectory
+    # If matrix x is like below,
+    # [ a b c
+    #   d e f
+    #   g h i ]
+    # row (a b c) mean one snapshot and column (a d g) mean trajectory.
 
     #DONE: support for x, y, z = nothing, nothing, nothing
     #DONE: natom, nframe
