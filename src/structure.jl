@@ -533,3 +533,17 @@ function getdihedral(ta1::TrjArray, ta2::TrjArray, ta3::TrjArray, ta4::TrjArray)
     end
     a = (a ./ pi) .* 180.0
 end
+
+#############################################################################
+"""
+getpolarcoordinate
+
+translate cartesian to polar coordinate
+"""
+#TODO: adjust to multi frame trajectory.
+function getpolarcoordinate(ta::TrjArray)::Dict
+    r = sqrt.(ta.x.*ta.x + ta.y.*ta.y + ta.z.*ta.z)
+    phi = acos(ta.x ./ norms)
+    theta = asin(ta.z ./ norms)
+    Dict(:r => r, :phi => phi, :theta => theta)
+end
